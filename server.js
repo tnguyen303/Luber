@@ -14,10 +14,14 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // Add routes, both API and view
-require('./routes/api-routes')(app);
+require("./routes/api-routes")(app);
 
 // Connect to the Mongo DB
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/luber");
+mongoose.connect(
+  process.env.MONGODB_URI ||
+    "mongodb://user:password1@ds155864.mlab.com:55864/heroku_0zlmp78k"
+  // "mongodb://localhost/luber"
+);
 
 // Start the API server
 app.listen(PORT, function() {

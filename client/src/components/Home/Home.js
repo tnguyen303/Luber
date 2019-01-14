@@ -28,51 +28,20 @@ const TripForm = props => (
     <button id="calcBtn" onClick={props.calculateFare}>
       Calculate Fare
     </button>
-    <button onClick={props.showFareList}>Select Car Type</button>
+    <button onClick={props.showFareList}>Change Car Type</button>
   </form>
 );
 
 const FareList = props => (
   <div id="fareListModal" className="modal">
-    <span onClick={props.exitModal} className="close">
+    <span onClick={props.hideFareList} className="close">
       &times;
     </span>
     <div id="fareList" className="modal-content">
-      <button
-        className="fareBtn"
-        onClick={props.stdFareHandler}
-        id={props.fareList[0].type}
-        value={props.fareList[0].price}
-      >
-        {props.fareList[0].description}
-        <span> ${props.fareList[0].price}.00</span>
-      </button>
-
-      <button
-        className="fareBtn"
-        onClick={props.luxFareHandler}
-        id={props.fareList[1].type}
-        value={props.fareList[1].price}
-      >
-        {props.fareList[1].description}
-        <span> ${props.fareList[1].price}.00</span>
-      </button>
-
-      <button
-        className="fareBtn"
-        onClick={props.lgFareHandler}
-        id={props.fareList[2].type}
-        value={props.fareList[2].price}
-      >
-        {props.fareList[2].description}
-        <span> ${props.fareList[2].price}.00</span>
-      </button>
-
-      {/* use this to loop through fare list, use only if successfully call method in parent component */}
-      {/* {props.fareList.map((e, i) => (
+      {props.fareList.map((e, i) => (
         <button
           className="fareBtn"
-          onClick={e.handleClick}
+          onClick={props.handleFareClick}
           id={e.type}
           key={i}
           value={e.price}
@@ -80,7 +49,7 @@ const FareList = props => (
           {e.description}
           <span> ${e.price}.00</span>
         </button>
-      ))} */}
+      ))}
     </div>
   </div>
 );
@@ -117,23 +86,17 @@ class Home extends React.Component {
       {
         type: "stdFare",
         description: "Luber Standard (4 persons)",
-        price: 20,
-        handleClick: function(event) {
-          // Home.setState({selectedFare: event.target.value});
-          // this.stdFareHandler();
-        }
+        price: 20
       },
       {
         type: "luxFare",
         description: "Luber Luxury (4 persons)",
-        price: 30,
-        handleClick: this.luxFareHandler
+        price: 30
       },
       {
         type: "lgFare",
         description: "Luber Van (6 persons)",
-        price: 25,
-        handleClick: this.lgFareHandler
+        price: 25
       }
     ],
     fareListDisplay: false
@@ -158,15 +121,6 @@ class Home extends React.Component {
 
   loadDirMap = () => {
     this.setState({ view: "direction", isDirMapReady: true });
-  };
-
-  toggleFareList = () => {
-    this.setState({ fareListDisplay: !this.state.fareListDisplay });
-  };
-
-  showFareList = event => {
-    event.preventDefault();
-    this.setState({ fareListDisplay: true });
   };
 
   handleOriginChange = event => {
@@ -214,15 +168,78 @@ class Home extends React.Component {
       this.encodeLocationAPI();
       this.loadLocMap();
     });
+    fetch(
+      "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=33.8518016,-84.1170944&destinations=590%20Collingwood%20dr&key=AIzaSyCy6XI9k69VW_vNjJ-q7rpdgPiFjJH1zMA"
+    ).then(res => console.log(res));
   }
 
   calculateFare = event => {
     event.preventDefault();
     this.encodeDirectionAPI();
     this.loadDirMap();
-    this.toggleFareList();
+    this.showFareList();
     this.getTripInfo();
   };
+
+  // getTripInfo = () => {
+  //   let originString = "";
+
+  //   if (this.state.origin.length === 0) {
+  //     originString =
+  //       this.state.currentPosition.latitude +
+  //       "," +
+  //       this.state.currentPosition.longitude;
+  //   } else {
+  //     originString = this.state.origin;
+  //   }
+
+  //   const service = new google.maps.DistanceMatrixService();
+  //   service.getDistanceMatrix(
+  //     {
+  //       origins: [originString],
+  //       destinations: [this.state.destination],
+  //       travelMode: "DRIVING",
+  //       unitSystem: google.maps.UnitSystem.IMPERIAL
+  //     },
+  //     this.parseTripInfo
+  //   );
+  // };
+
+  // parseTripInfo = (response, status) => {
+  //   if(status != google.maps.DistanceMatrixStatus.OK){
+  //     console.log(err);
+  //   } else{
+  //     console.log(response);
+  //   }
+  // };
+
+  //getting CORS error messages on heroku & localhost & laptop & desktop, Cross-Origin-Request error, probably due to unaccepted security certificate
+  // getTripInfo = () => {
+  //   let originString = "";
+
+  //   if (this.state.origin.length === 0) {
+  //     originString =
+  //       this.state.currentPosition.latitude +
+  //       "," +
+  //       this.state.currentPosition.longitude;
+  //   } else {
+  //     originString = encodeURI(this.state.origin);
+  //   }
+
+  //   const encodedLink =
+  //     "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" +
+  //     originString +
+  //     "&destinations=" +
+  //     encodeURI(this.state.destination) +
+  //     "&key=AIzaSyCy6XI9k69VW_vNjJ-q7rpdgPiFjJH1zMA";
+  //   console.log("success");
+  //   axios.get(encodedLink, { crossDomain: true }).then(results => {
+  //     const distanceInMeters = results.data.rows[0].elements[0].distance.value;
+  //     const durationInSec = results.data.rows[0].elements[1].duration.value;
+  //     console.log(distanceInMeters, durationInSec);
+  //     this.setState({ distance: distanceInMeters, duration: durationInSec });
+  //   });
+  // };
 
   getTripInfo = () => {
     let originString = "";
@@ -242,8 +259,9 @@ class Home extends React.Component {
       "&destinations=" +
       encodeURI(this.state.destination) +
       "&key=AIzaSyCy6XI9k69VW_vNjJ-q7rpdgPiFjJH1zMA";
-    console.log("success");
-    axios.get(encodedLink, { crossDomain: true }).then(results => {
+    console.log("hi");
+    fetch(encodedLink).then(results => {
+      console.log("success!");
       const distanceInMeters = results.data.rows[0].elements[0].distance.value;
       const durationInSec = results.data.rows[0].elements[1].duration.value;
       console.log(distanceInMeters, durationInSec);
@@ -251,23 +269,17 @@ class Home extends React.Component {
     });
   };
 
-  exitModal = () => {
+  showFareList = () => {
+    this.setState({ fareListDisplay: true });
+  };
+
+  hideFareList = () => {
     this.setState({ fareListDisplay: false });
   };
 
-  stdFareHandler = event => {
+  handleFareClick = event => {
     this.setState({ selectedFare: parseFloat(event.target.value) });
-    this.exitModal();
-  };
-
-  luxFareHandler = event => {
-    this.setState({ selectedFare: parseFloat(event.target.value) });
-    this.exitModal();
-  };
-
-  lgFareHandler = event => {
-    this.setState({ selectedFare: parseFloat(event.target.value) });
-    this.exitModal();
+    this.hideFareList();
   };
 
   render() {
@@ -276,17 +288,15 @@ class Home extends React.Component {
         {this.state.fareList.length > 0 && this.state.fareListDisplay ? (
           <FareList
             fareList={this.state.fareList}
-            exitModal={this.exitModal}
-            stdFareHandler={this.stdFareHandler}
-            luxFareHandler={this.luxFareHandler}
-            lgFareHandler={this.lgFareHandler}
+            hideFareList={this.hideFareList}
+            handleFareClick={this.handleFareClick}
           />
         ) : null}
         <TripForm
           handleOriginChange={this.handleOriginChange}
           handleDestinationChange={this.handleDestinationChange}
           calculateFare={this.calculateFare}
-          toggleFareList={this.toggleFareList}
+          hideFareList={this.hideFareList}
           showFareList={this.showFareList}
           destinationList={this.state.destinationList}
         />

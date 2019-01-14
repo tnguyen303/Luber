@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import axios from "axios";
-import logo from "./logo.svg";
+// import logo from "./logo.svg";
 import Account from "./components/Account";
 import Header from "./components/Header";
 import History from "./components/History";
-import Home from "./components/Home";
+import Home from "./components/Home/Home";
 import Login from "./components/Login";
 import Navbar from "./components/Navbar";
 import "./css/reset.css";
@@ -31,7 +31,7 @@ class App extends Component {
       .post("/api/login", { uid: this.state.uid, pw: this.state.pw })
       .then(result => {
         if (result.data.success) {
-          this.setState({ view: "account" });
+          this.setState({ view: "home" });
         } else {
           alert("mobile phone # or password is incorrect. Please try again");
         }

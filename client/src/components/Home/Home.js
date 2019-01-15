@@ -28,7 +28,7 @@ const TripForm = props => (
     <button id="calcBtn" onClick={props.calculateFare}>
       Calculate Fare
     </button>
-    <button onClick={props.showFareList}>Change Car Type</button>
+    <button onClick={props.hideFareList}>Change Car Type</button>
   </form>
 );
 
@@ -168,9 +168,9 @@ class Home extends React.Component {
       this.encodeLocationAPI();
       this.loadLocMap();
     });
-    fetch(
-      "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=33.8518016,-84.1170944&destinations=590%20Collingwood%20dr&key=AIzaSyCy6XI9k69VW_vNjJ-q7rpdgPiFjJH1zMA"
-    ).then(res => console.log(res));
+    // fetch(
+    //   "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=33.8518016,-84.1170944&destinations=590%20Collingwood%20dr&key=AIzaSyCy6XI9k69VW_vNjJ-q7rpdgPiFjJH1zMA"
+    // ).then(res => console.log(res));
   }
 
   calculateFare = event => {
@@ -178,7 +178,7 @@ class Home extends React.Component {
     this.encodeDirectionAPI();
     this.loadDirMap();
     this.showFareList();
-    this.getTripInfo();
+    // this.getTripInfo();
   };
 
   // getTripInfo = () => {
@@ -297,7 +297,6 @@ class Home extends React.Component {
           handleDestinationChange={this.handleDestinationChange}
           calculateFare={this.calculateFare}
           hideFareList={this.hideFareList}
-          showFareList={this.showFareList}
           destinationList={this.state.destinationList}
         />
         <div id="mapArea">

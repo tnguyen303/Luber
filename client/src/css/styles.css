@@ -76,12 +76,13 @@ input{
   width: 33.3%;
 }
 
-.navBtn a {
+.navBtn .navSubBtn {
   display: block;
   color: white;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .navBtn a:hover:not(.active) {

@@ -1,17 +1,17 @@
-.App{
+.App {
   height: 100vh;
-  font-family: 'Roboto', sans-serif;
-  grid-template-rows: 60px 1fr 40px;
+  font-family: "Roboto", sans-serif;
+  grid-template-rows: 60px 1fr 60px;
   display: grid;
   overflow-y: hidden;
   overflow-x: hidden;
 }
 
-.withBackground{
-  background-image: url('../img/login-background.gif');
+.withBackground {
+  background-image: url("../img/login-background.gif");
 }
 
-header{
+header {
   padding-top: 5px;
   background-color: #333;
   color: white;
@@ -20,23 +20,23 @@ header{
   text-align: center;
 }
 
-.slogan{
+.slogan {
   font-size: 15px;
   font-weight: 800;
 }
 
-.login-form{
+.login-form {
   display: block;
   margin: auto;
   width: 80%;
 }
 
-.align-center{
+.align-center {
   margin: auto;
   width: 100%;
 }
 
-#login-button{
+#login-button {
   /* border-radius: 15px; */
   height: 30px;
   display: block;
@@ -45,7 +45,7 @@ header{
   width: 40%;
 }
 
-input{
+input {
   width: 60%;
   border-radius: 10px;
   padding-left: 10px;
@@ -54,11 +54,11 @@ input{
   border: solid 1px;
 }
 
-.white-text{
+.white-text {
   color: white;
 }
 
-.login{
+.login {
   padding: 200px 0px 200px 0px;
 }
 
@@ -80,7 +80,7 @@ input{
   display: block;
   color: white;
   text-align: center;
-  padding: 14px 16px;
+  padding: 20px 20px;
   text-decoration: none;
   cursor: pointer;
 }
@@ -93,25 +93,25 @@ input{
   background-color: #4caf50;
 }
 
-#trip-form{
-  background-color: #4285F4;
+#trip-form {
+  background-color: #4285f4;
   margin: auto;
   width: 95%;
   padding: 10px 10px;
 }
 
-#mapArea{
+#mapArea {
   height: 88%;
   background-color: white;
 }
 
-#map{
+#map {
   width: 100%;
   height: 97%;
   border: 0;
 }
 
-#account-form{
+#account-form {
   overflow-y: scroll;
   margin-right: auto;
   margin-left: auto;
@@ -119,12 +119,12 @@ input{
   padding-top: 20px;
 }
 
-h1{
+h1 {
   font-weight: bolder;
 }
 
-button{
-  height: 25px;
+button {
+  height: 35px;
   border-radius: 5px;
   padding: 0px 20px 0px 20px;
   background-color: #333;
@@ -132,16 +132,16 @@ button{
   font-weight: 500;
   box-shadow: 0;
   border: 0;
-  cursor:pointer;
+  cursor: pointer;
 }
 
-.fareBtn{
+.fareBtn {
   /* background-color:  */
   margin-top: 5px;
   margin-left: 5px;
 }
 
-#calcBtn{
+#calcBtn {
   background-color: rgb(0, 53, 138);
   border: 0;
 }
@@ -156,8 +156,8 @@ button{
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }
 
 /* Modal Content */
@@ -184,3 +184,15 @@ button{
   text-decoration: none;
   cursor: pointer;
 }
+
+/* @media only screen and (max-width: 600px) {
+  .navBtn .navSubBtn {
+    cursor: auto;
+  }
+  .close:focus {
+    cursor: auto;
+  }
+  button {
+    cursor: auto;
+  }
+} */

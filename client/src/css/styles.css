@@ -47,7 +47,8 @@ header {
 
 input {
   width: 60%;
-  border-radius: 10px;
+  height: 24px;
+  border-radius: 15px;
   padding-left: 10px;
   margin-bottom: 5px;
   margin-left: 10px;
@@ -148,7 +149,7 @@ button {
 
 .modal {
   /* display: none; Hidden by default */
-  position: fixed; /* Stay in place */
+  position: absolute; /* Stay in place */
   z-index: 1; /* Sit on top */
   padding-top: 100px; /* Location of the box */
   left: 0;

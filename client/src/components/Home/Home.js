@@ -165,34 +165,6 @@ class Home extends React.Component {
     this.getTripInfo();
   };
 
-  //getting CORS error messages on heroku & localhost & laptop & desktop, Cross-Origin-Request error, probably due to unaccepted security certificate
-  // getTripInfo = () => {
-  //   let originString = "";
-
-  //   if (this.state.origin.length === 0) {
-  //     originString =
-  //       this.state.currentPosition.latitude +
-  //       "," +
-  //       this.state.currentPosition.longitude;
-  //   } else {
-  //     originString = encodeURI(this.state.origin);
-  //   }
-
-  //   const encodedLink =
-  //     "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" +
-  //     originString +
-  //     "&destinations=" +
-  //     encodeURI(this.state.destination) +
-  //     "&key=AIzaSyCy6XI9k69VW_vNjJ-q7rpdgPiFjJH1zMA";
-  //   console.log("success");
-  //   axios.get(encodedLink, { crossDomain: true }).then(results => {
-  //     const distanceInMeters = results.data.rows[0].elements[0].distance.value;
-  //     const durationInSec = results.data.rows[0].elements[1].duration.value;
-  //     console.log(distanceInMeters, durationInSec);
-  //     this.setState({ distance: distanceInMeters, duration: durationInSec });
-  //   });
-  // };
-
   getTripInfo = () => {
     let originString = "";
 

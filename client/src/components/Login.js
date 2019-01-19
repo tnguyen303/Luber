@@ -4,7 +4,7 @@ const Login = props => (
   <div className="login withBackground">
     <form className='login-form'>
       <input className="align-center" onChange={props.changeUid} placeholder="Enter mobile phone #" />
-      <p className="white-text">demo use: 404123567</p>
+      <p className="white-text">demo use: 4041235678</p>
       <br />
       <input className="align-center" type="password" onChange={props.changePw} placeholder="Enter password" />
       <p className="white-text">demo use: password</p>

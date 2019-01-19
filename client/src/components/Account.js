@@ -9,6 +9,8 @@ const Account = props => (
       <input id="uid" defaultValue="404123567" /><br />
       <label htmlFor="password">Password</label>
       <input id="Password" defaultValue="password" type="password" /><br />
+      <label htmlFor="email">Email</label>
+      <input id="email" defaultValue="tringuyen552911@gmail.com" /><br />
       <br />
       <button onClick={props.submitAccount}>Submit</button>
     </form>

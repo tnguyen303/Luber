@@ -1,9 +1,7 @@
 const mongoose = require("mongoose");
 
-// Save a reference to the Schema constructor
 const Schema = mongoose.Schema;
 
-// Using the Schema constructor, create a new TweetSchema object
 const TripSchema = new Schema({
   time: {
     type: Number,
@@ -22,14 +20,12 @@ const TripSchema = new Schema({
     required: true
   },
   driver: {
-    type: String,
+    type: Schema.Types.ObjectId,
     required: true,
-    default: "driver1"
+    ref: "User"
   }
 });
 
-// This creates our model from the above schema, using Mongoose's model method
 const Trip = mongoose.model("Trip", TripSchema);
 
-// Export the Tweet model
 module.exports = Trip;

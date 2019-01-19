@@ -225,7 +225,7 @@ class Home extends React.Component {
 
   render() {
     return (
-      <div>
+      <div id="home">
         {this.state.fareList.length > 0 && this.state.fareListDisplay ? (
           <FareList
             fareList={this.state.fareList}

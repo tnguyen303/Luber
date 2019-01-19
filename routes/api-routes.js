@@ -5,11 +5,6 @@ const Trip = require("../models/Trip");
 
 const axios = require("axios");
 
-const roundUp = function(num, precision) {
-  precision = Math.pow(10, precision);
-  return Math.ceil(num * precision) / precision;
-};
-
 module.exports = function(app) {
   //create a new login
   app.post("/api/signup", function(req, res) {
@@ -59,17 +54,17 @@ module.exports = function(app) {
       {
         type: "stdFare",
         description: "Luber Standard (4 persons)",
-        price: roundUp(req.params.distance * 1, 2)
+        price: (req.params.distance * process.env.STDRATE).toFixed(2)
       },
       {
         type: "luxFare",
         description: "Luber Luxury (4 persons)",
-        price: roundUp(req.params.distance * 1.4, 2)
+        price: (req.params.distance * process.env.LUXRATE).toFixed(2)
       },
       {
         type: "lgFare",
         description: "Luber Van (6 persons)",
-        price: roundUp(req.params.distance * 1.25, 2)
+        price: (req.params.distance * process.env.LGRATE).toFixed(2)
       }
     ];
 

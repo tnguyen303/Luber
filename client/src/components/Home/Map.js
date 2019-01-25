@@ -8,6 +8,11 @@ import {
   Marker
 } from "react-google-maps";
 
+const stdCarIcon = {url: require("../../img/std-car-side-view.png"), scaledSize:{width: 50, height: 50}};
+const luxCarIcon = {url: require("../../img/lambo-side-view.png"), scaledSize:{width: 50, height: 50}};
+const lgCarIcon = {url: require("../../img/minivan-side-view.png"), scaledSize:{width: 50, height: 30}};
+
+
 const Map = compose(
   withProps({
     googleMapURL:
@@ -24,11 +29,20 @@ const Map = compose(
       <div>
         <Marker
           position={{ lat: -34.397, lng: 150.644 }}
-          icon= {"../../img/std-car-side-view.png"}
+          icon={stdCarIcon}
         />
-        <Marker position={{ lat: -34.57, lng: 150.644 }} />
-        <Marker position={{ lat: -34.677, lng: 150.644 }} />
-        <Marker position={{ lat: -34.967, lng: 150.644 }} />
+        <Marker
+          position={{ lat: -34.59, lng: 150.644 }}
+          icon={stdCarIcon}
+        />
+        <Marker
+          position={{ lat: -34.677, lng: 150.644 }}
+          icon={luxCarIcon}
+        />
+        <Marker
+          position={{ lat: -34.967, lng: 150.644 }}
+          icon={lgCarIcon}
+        />
       </div>
     )}
   </GoogleMap>

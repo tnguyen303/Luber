@@ -18,6 +18,11 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
+  vehicleType: {
+    type: String,
+    required: true,
+    default: "std"
+  },
   avatar: {
     type: String,
     required: true

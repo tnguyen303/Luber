@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import Map from "./Map";
 
 const TripForm = props => (
   <form id="trip-form">
@@ -85,6 +86,7 @@ class Home extends React.Component {
     duration: 0,
     durationStr: "",
     selectedFare: 0,
+    selectedCar: "",
     fareList: [],
     fareListDisplay: false
   };
@@ -186,6 +188,8 @@ class Home extends React.Component {
           results.data.rows[0].elements[0].distance.value;
         const durationInSec = results.data.rows[0].elements[0].duration.value;
         const durationStr = results.data.rows[0].elements[0].duration.text;
+        const origin = results.data.destination_addresses[0];
+        const destination = results.data.origin_addresses[0];
 
         const distanceInMiles = distanceInMeters * 0.0006213;
         const distanceStr = `${this.roundUp(distanceInMiles, 2)} mi`;
@@ -196,6 +200,8 @@ class Home extends React.Component {
         });
 
         this.setState({
+          origin: origin,
+          destination: destination,
           distance: distanceInMiles,
           distanceStr: distanceStr,
           duration: durationInSec,
@@ -209,7 +215,7 @@ class Home extends React.Component {
     return Math.ceil(num * precision) / precision;
   };
 
-  showFareList = (event) => {
+  showFareList = event => {
     event.preventDefault();
     this.setState({ fareListDisplay: true });
   };
@@ -242,7 +248,8 @@ class Home extends React.Component {
         />
         <div id="mapArea">
           {this.state.view === "location" && this.state.isLocMapReady ? (
-            <LocationMap encodedAPI={this.state.locationAPI} />
+            // <LocationMap encodedAPI={this.state.locationAPI} />
+            <Map isMarkerShown />
           ) : null}
           {this.state.view === "direction" && this.state.isDirMapReady ? (
             <DirectionMap encodedAPI={this.state.directionAPI} />

@@ -88,7 +88,8 @@ class Home extends React.Component {
     selectedFare: 0,
     selectedCar: "",
     fareList: [],
-    fareListDisplay: false
+    fareListDisplay: false,
+    driverLocList: []
   };
 
   getLocation = callback => {
@@ -156,6 +157,7 @@ class Home extends React.Component {
     this.getLocation(() => {
       this.encodeLocationAPI();
       this.loadLocMap();
+      this.getDriverLocList();
     });
   }
 
@@ -227,6 +229,17 @@ class Home extends React.Component {
   handleFareClick = event => {
     this.setState({ selectedFare: parseFloat(event.target.value) });
     this.hideFareList();
+  };
+
+  getDriverLocList = () => {
+    axios
+      .post("/api/drivers", {
+        locationStr: "",
+        destinationStr: encodeURI(`${this.state.currentPosition.latitude},${this.state.currentPosition.longitude}`)
+      })
+      .then(result => {
+        this.setState({ driverLocList: result.data });
+      });
   };
 
   render() {

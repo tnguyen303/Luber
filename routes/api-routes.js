@@ -5,6 +5,17 @@ const Trip = require("../models/Trip");
 
 const axios = require("axios");
 
+//returns an encoded URL to access Google Distance Matrix API
+const composeURL = function(originStr, destinationStr) {
+  return (
+    "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" +
+    originStr +
+    "&destinations=" +
+    destinationStr +
+    `&key=${process.env.GAPI_KEY}`
+  );
+};
+
 module.exports = function(app) {
   //create a new login
   app.post("/api/signup", function(req, res) {
@@ -36,16 +47,9 @@ module.exports = function(app) {
 
   //get distance and duration from Google API
   app.get("/api/trip/:originStr/:destinationStr", function(req, res) {
-    const encodedLink =
-      "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" +
-      req.params.originStr +
-      "&destinations=" +
-      req.params.destinationStr +
-      `&key=${process.env.GAPI_KEY}`;
-
-    axios.get(encodedLink).then(function(result) {
-      res.json(result.data);
-    });
+    axios
+      .get(composeURL(req.params.originStr, req.params.destinationStr))
+      .then(result => res.json(result.data));
   });
 
   //get fare list using distance input in miles
@@ -71,9 +75,9 @@ module.exports = function(app) {
     res.json(fareList);
   });
 
-  //return n most close-by drivers, input is the current location object
+  //return n most close-by drivers, takes in the current location object
   app.post("/api/drivers", function(req, res) {
-    const qty = 10;
+    const qty = 20;
     const destinationStr = req.body.destinationStr;
     const driverLocList = [];
     let originStr = "";
@@ -92,30 +96,25 @@ module.exports = function(app) {
         });
 
         originStr = originStr.substring(0, originStr.length - 1);
-        // console.log(driverLocList);
 
         axios
-          .get('/api/trip/1096%2cgarner%2ccreek%2cdr/590%2ccollingwood%2cdr')
-          .then(result => console.log(result.data))
+          .get(composeURL(originStr, destinationStr))
+          .then(result => {
+            for (let i = 0; i < driverLocList.length; i++) {
+              driverLocList[i].duration =
+                result.data.rows[i].elements[0].duration.value;
+              driverLocList[i].distance =
+                result.data.rows[i].elements[0].distance.value;
+              driverLocList[i].address = 
+                result.data.origin_addresses[i];
+            }
+
+            driverLocList.sort((a, b) => {
+              return a.duration - b.duration;
+            });
+            res.json(driverLocList.slice(0, qty));
+          })
           .catch(err => console.log(err));
-
-        // axios.get(`/api/trip/${originStr}/${destinationStr}`).then(result => {
-        //   for (let i = 0; i < driverLocList.length; i++) {
-        //     driverLocList[i].duration =
-        //       result.data.rows[i].elements[0].duration.value;
-        //     driverLocList[i].distance =
-        //       result.data.rows[i].elements[0].distance.value;
-        //   };
-
-        //   console.log(driverLocList);
-
-        //   driverLocList.sort((a, b) => {
-        //     return a.duration - b.duration;
-        //   });
-        //   console.log(driverLocList);
-        //   res.json(driverLocList);
-        // });
-        res.json(driverLocList.slice(0, qty));
       })
       .catch(function(err) {
         res.json(err);

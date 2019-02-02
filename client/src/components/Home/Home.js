@@ -60,17 +60,12 @@ const DirectionMap = props => (
   <iframe id="map" title="googlemap" src={props.encodedAPI} />
 );
 
-const LocationMap = props => (
-  <iframe id="map" title="googlemap" src={props.encodedAPI} />
-);
-
 class Home extends React.Component {
   state = {
-    isLocMapReady: false,
+    isLocReady: false,
     isDirMapReady: false,
     view: "location",
     currentPosition: {},
-    locationAPI: "",
     directionAPI: "",
     destinationList: [
       "1900 Dekalb ave atlanta",
@@ -106,7 +101,7 @@ class Home extends React.Component {
   };
 
   loadLocMap = () => {
-    this.setState({ isLocMapReady: true });
+    
   };
 
   loadDirMap = () => {
@@ -143,20 +138,9 @@ class Home extends React.Component {
     this.setState({ directionAPI: encodedLink });
   };
 
-  encodeLocationAPI = () => {
-    const encodedLink =
-      "https://www.google.com/maps/embed/v1/place?q=" +
-      this.state.currentPosition.latitude +
-      "," +
-      this.state.currentPosition.longitude +
-      "&key=AIzaSyCy6XI9k69VW_vNjJ-q7rpdgPiFjJH1zMA";
-    this.setState({ locationAPI: encodedLink });
-  };
-
   componentDidMount() {
     this.getLocation(() => {
-      this.encodeLocationAPI();
-      this.loadLocMap();
+      this.setState({ isLocReady: true });
       this.getDriverLocList();
     });
   }
@@ -190,15 +174,14 @@ class Home extends React.Component {
           results.data.rows[0].elements[0].distance.value;
         const durationInSec = results.data.rows[0].elements[0].duration.value;
         const durationStr = results.data.rows[0].elements[0].duration.text;
-        const origin = results.data.destination_addresses[0];
-        const destination = results.data.origin_addresses[0];
+        const origin = results.data.origin_addresses[0];
+        const destination = results.data.destination_addresses[0];
 
         const distanceInMiles = distanceInMeters * 0.0006213;
         const distanceStr = `${this.roundUp(distanceInMiles, 2)} mi`;
 
         axios.get(`/api/fare/${distanceInMiles}`).then(results => {
           this.setState({ fareList: results.data });
-          console.log(results);
         });
 
         this.setState({
@@ -235,7 +218,11 @@ class Home extends React.Component {
     axios
       .post("/api/drivers", {
         locationStr: "",
-        destinationStr: encodeURI(`${this.state.currentPosition.latitude},${this.state.currentPosition.longitude}`)
+        destinationStr: encodeURI(
+          `${this.state.currentPosition.latitude},${
+            this.state.currentPosition.longitude
+          }`
+        )
       })
       .then(result => {
         this.setState({ driverLocList: result.data });
@@ -260,9 +247,15 @@ class Home extends React.Component {
           destinationList={this.state.destinationList}
         />
         <div id="mapArea">
-          {this.state.view === "location" && this.state.isLocMapReady ? (
-            // <LocationMap encodedAPI={this.state.locationAPI} />
-            <Map isMarkerShown />
+          {this.state.view === "location" && this.state.isLocReady ? (
+            <Map
+              currentPosition={{
+                lat: this.state.currentPosition.latitude,
+                lng: this.state.currentPosition.longitude
+              }}
+              driverLocList={this.state.driverLocList}
+              isMarkerShown
+            />
           ) : null}
           {this.state.view === "direction" && this.state.isDirMapReady ? (
             <DirectionMap encodedAPI={this.state.directionAPI} />

@@ -353,7 +353,7 @@ const list = [
     uid: 4041235808,
     pw: "password",
     role: "driver",
-    vehicleType: "std",
+    vehicleType: "lg",
     avatar: "./client/src/img/man1.jpg",
     email: "uberuser13@gmail.com",
     fullName: "Anil Tellakula",
@@ -378,9 +378,8 @@ const list = [
   new User({
     uid: 4041235818,
     pw: "password",
-    fullName: "John Smith",
     role: "driver",
-    vehicleType: "std",
+    vehicleType: "lux",
     avatar: "./client/src/img/man2.jpg",
     email: "uberuser14@gmail.com",
     fullName: "John Smith",
@@ -399,6 +398,162 @@ const list = [
     currentLoc: {
       latitude: 33.773894,
       longitude: -84.394668,
+      streetAddress: ""
+    }
+  }),
+  new User({
+    uid: 4041235828,
+    pw: "password",
+    role: "driver",
+    vehicleType: "lux",
+    avatar: "./client/src/img/man3.jpg",
+    email: "uberuser15@gmail.com",
+    fullName: "Steve Nichols",
+    billing: {
+      cardNumber: 4400664482737244,
+      expMonth: 12,
+      expYear: 2022,
+      CVV: 705,
+      nameOnCard: "Steve Nichols",
+      address: "1146 Garner Creek Dr SW",
+      city: "Lilburn",
+      state: "Georgia",
+      zip: 30047
+    },
+    tripList: [],
+    currentLoc: {
+      latitude: 33.854498,
+      longitude: -84.118653,
+      streetAddress: ""
+    }
+  }),
+  new User({
+    uid: 4041235838,
+    pw: "password",
+    role: "driver",
+    vehicleType: "lg",
+    avatar: "./client/src/img/man4.jpg",
+    email: "uberuser16@gmail.com",
+    fullName: "Karim Amirali",
+    billing: {
+      cardNumber: 4400664482737244,
+      expMonth: 12,
+      expYear: 2022,
+      CVV: 705,
+      nameOnCard: "Karim Amirali",
+      address: "1146 Garner Creek Dr SW",
+      city: "Lilburn",
+      state: "Georgia",
+      zip: 30047
+    },
+    tripList: [],
+    currentLoc: {
+      latitude: 33.848644,
+      longitude: -84.117709,
+      streetAddress: ""
+    }
+  }),
+  new User({
+    uid: 4041235848,
+    pw: "password",
+    role: "driver",
+    vehicleType: "std",
+    avatar: "./client/src/img/lady1.jpg",
+    email: "uberuser17@gmail.com",
+    fullName: "Louise Taylor",
+    billing: {
+      cardNumber: 4400664482737244,
+      expMonth: 12,
+      expYear: 2022,
+      CVV: 705,
+      nameOnCard: "Louise Taylor",
+      address: "1146 Garner Creek Dr SW",
+      city: "Lilburn",
+      state: "Georgia",
+      zip: 30047
+    },
+    tripList: [],
+    currentLoc: {
+      latitude: 33.854497,
+      longitude: -84.127155,
+      streetAddress: ""
+    }
+  }),/////////////////////////////////////////////////////////
+  new User({
+    uid: 4041235858,
+    pw: "password",
+    role: "driver",
+    vehicleType: "lux",
+    avatar: "./client/src/img/lady2.jpg",
+    email: "uberuser18@gmail.com",
+    fullName: "Michelle Taylor",
+    billing: {
+      cardNumber: 4400664482737244,
+      expMonth: 12,
+      expYear: 2022,
+      CVV: 705,
+      nameOnCard: "Michelle Taylor",
+      address: "1146 Garner Creek Dr SW",
+      city: "Lilburn",
+      state: "Georgia",
+      zip: 30047
+    },
+    tripList: [],
+    currentLoc: {
+      latitude: 33.773551,
+      longitude: -84.388862,
+      streetAddress: ""
+    }
+  }),
+  new User({
+    uid: 4041235868,
+    pw: "password",
+    role: "driver",
+    vehicleType: "std",
+    avatar: "./client/src/img/man1.jpg",
+    email: "uberuser19@gmail.com",
+    fullName: "Dan Hom",
+    billing: {
+      cardNumber: 4400664482737244,
+      expMonth: 12,
+      expYear: 2022,
+      CVV: 705,
+      nameOnCard: "Dan Hom",
+      address: "1146 Garner Creek Dr SW",
+      city: "Lilburn",
+      state: "Georgia",
+      zip: 30047
+    },
+    tripList: [],
+    currentLoc: {
+      latitude: 33.776902,
+      longitude: -84.391585,
+      streetAddress: ""
+    }
+  }),
+  new User({
+    uid: 4041235878,
+    pw: "password",
+    role: "driver",
+    vehicleType: "lg",
+    avatar: "./client/src/img/lady3.jpg",
+    email: "uberuser20@gmail.com",
+    fullName: "Arianna Garcia",
+    billing: {
+      cardNumber: 4400664482737244,
+      expMonth: 12,
+      expYear: 2022,
+      CVV: 705,
+      nameOnCard: "Louise Taylor",
+      address: "1146 Garner Creek Dr SW",
+      city: "Lilburn",
+      state: "Georgia",
+      zip: 30047
+    },
+    tripList: [],
+    currentLoc: {
+      latitude: 33.777554,
+      longitude: -84.388369,
       streetAddress: ""
     }
   })

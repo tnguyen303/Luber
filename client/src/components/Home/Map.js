@@ -31,14 +31,25 @@ const Map = compose(
   withScriptjs,
   withGoogleMap
 )(props => (
-  <GoogleMap defaultZoom={13.5} defaultCenter={{ lat: -34.100, lng: 150.644 }}>
+  <GoogleMap defaultZoom={15} defaultCenter={props.currentPosition}>
     {props.isMarkerShown && (
       <div>
-        <Marker position={{ lat: -34.100, lng: 150.644 }} />
-        <Marker position={{ lat: -34.110, lng: 150.644 }} icon={stdCarIcon} />
-        <Marker position={{ lat: -34.120, lng: 150.644 }} icon={stdCarIcon} />
-        <Marker position={{ lat: -34.090, lng: 150.644 }} icon={luxCarIcon} />
-        <Marker position={{ lat: -34.080, lng: 150.644 }} icon={lgCarIcon} />
+        <Marker position={props.currentPosition} />
+        {props.driverLocList.map(e => (
+          <Marker
+            // animation={this.props.google.maps.Animation.DROP}
+            position={{ lat: e.lat, lng: e.lng }}
+            icon={
+              e.vehicleType === "std"
+                ? stdCarIcon
+                : e.vehicleType === "lux"
+                ? luxCarIcon
+                : e.vehicleType === "lg"
+                ? lgCarIcon
+                : null
+            }
+          />
+        ))}
       </div>
     )}
   </GoogleMap>

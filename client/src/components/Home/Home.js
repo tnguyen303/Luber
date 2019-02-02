@@ -40,6 +40,12 @@ const FareList = props => (
       &times;
     </span>
     <div id="fareList" className="modal-content">
+      <p style={{ textAlign: "center", "font-weight": "bold", color: "green" }}>
+        {props.duration}
+      </p>
+      <p style={{ textAlign: "center", "font-weight": "bold" }}>
+        {props.distance}
+      </p>
       {props.fareList.map((e, i) => (
         <button
           className="fareBtn"
@@ -100,9 +106,7 @@ class Home extends React.Component {
     }
   };
 
-  loadLocMap = () => {
-    
-  };
+  loadLocMap = () => {};
 
   loadDirMap = () => {
     this.setState({ view: "direction", isDirMapReady: true });
@@ -237,6 +241,8 @@ class Home extends React.Component {
             fareList={this.state.fareList}
             hideFareList={this.hideFareList}
             handleFareClick={this.handleFareClick}
+            duration={this.state.durationStr}
+            distance={this.state.distanceStr}
           />
         ) : null}
         <TripForm

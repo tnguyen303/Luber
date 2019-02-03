@@ -17,7 +17,7 @@ const list = [
     pw: "password",
     role: "rider",
     vehicleType: "std",
-    avatar: "./client/src/img/man1.jpg",
+    avatar: "../img/man1.jpg",
     email: "tringuyen552911@gmail.com",
     fullName: "Tri Nguyen",
     billing: {
@@ -42,7 +42,7 @@ const list = [
     pw: "password",
     role: "driver",
     vehicleType: "std",
-    avatar: "./client/src/img/lady1.jpg",
+    avatar: "../img/lady1.jpg",
     email: "uberuser1@gmail.com",
     fullName: "Denise Watson",
     billing: {
@@ -68,7 +68,7 @@ const list = [
     pw: "password",
     role: "driver",
     vehicleType: "std",
-    avatar: "./client/src/img/lady2.jpg",
+    avatar: "../img/lady2.jpg",
     email: "uberuser2@gmail.com",
     fullName: "Kay Kotheraman",
     billing: {
@@ -94,7 +94,7 @@ const list = [
     pw: "password",
     role: "driver",
     vehicleType: "std",
-    avatar: "./client/src/img/lady3.jpg",
+    avatar: "../img/lady3.jpg",
     email: "uberuser3@gmail.com",
     fullName: "Rosie Witherspoon",
     billing: {
@@ -120,7 +120,7 @@ const list = [
     pw: "password",
     role: "driver",
     vehicleType: "std",
-    avatar: "./client/src/img/man2.jpg",
+    avatar: "../img/man2.jpg",
     email: "uberuser4@gmail.com",
     fullName: "James Sakalakus",
     billing: {
@@ -146,7 +146,7 @@ const list = [
     pw: "password",
     role: "driver",
     vehicleType: "std",
-    avatar: "./client/src/img/man3.jpg",
+    avatar: "../img/man3.jpg",
     email: "uberuser5@gmail.com",
     fullName: "Bill Tuttle",
     billing: {
@@ -172,7 +172,7 @@ const list = [
     pw: "password",
     role: "driver",
     vehicleType: "std",
-    avatar: "./client/src/img/lady4.jpg",
+    avatar: "../img/lady4.jpg",
     email: "uberuser6@gmail.com",
     fullName: "Erica Rachu",
     billing: {
@@ -198,7 +198,7 @@ const list = [
     pw: "password",
     role: "driver",
     vehicleType: "std",
-    avatar: "./client/src/img/man4.jpg",
+    avatar: "../img/man4.jpg",
     email: "uberuser7@gmail.com",
     fullName: "Maungkyaw Aung",
     billing: {
@@ -224,7 +224,7 @@ const list = [
     pw: "password",
     role: "driver",
     vehicleType: "std",
-    avatar: "./client/src/img/man1.jpg",
+    avatar: "../img/man1.jpg",
     email: "uberuser8@gmail.com",
     fullName: "Louis Wesley",
     billing: {
@@ -250,7 +250,7 @@ const list = [
     pw: "password",
     role: "driver",
     vehicleType: "std",
-    avatar: "./client/src/img/man2.jpg",
+    avatar: "../img/man2.jpg",
     email: "uberuser9@gmail.com",
     fullName: "David Pham",
     billing: {
@@ -276,7 +276,7 @@ const list = [
     pw: "password",
     role: "driver",
     vehicleType: "std",
-    avatar: "./client/src/img/lady1.jpg",
+    avatar: "../img/lady1.jpg",
     email: "uberuser10@gmail.com",
     fullName: "Kathryn Mays",
     billing: {
@@ -302,7 +302,7 @@ const list = [
     pw: "password",
     role: "driver",
     vehicleType: "std",
-    avatar: "./client/src/img/man3.jpg",
+    avatar: "../img/man3.jpg",
     email: "uberuser11@gmail.com",
     fullName: "Eric Kim",
     billing: {
@@ -328,7 +328,7 @@ const list = [
     pw: "password",
     role: "driver",
     vehicleType: "std",
-    avatar: "./client/src/img/man4.jpg",
+    avatar: "../img/man4.jpg",
     email: "uberuser12@gmail.com",
     fullName: "David Smith",
     billing: {
@@ -354,7 +354,7 @@ const list = [
     pw: "password",
     role: "driver",
     vehicleType: "lg",
-    avatar: "./client/src/img/man1.jpg",
+    avatar: "../img/man1.jpg",
     email: "uberuser13@gmail.com",
     fullName: "Anil Tellakula",
     billing: {
@@ -380,7 +380,7 @@ const list = [
     pw: "password",
     role: "driver",
     vehicleType: "lux",
-    avatar: "./client/src/img/man2.jpg",
+    avatar: "../img/man2.jpg",
     email: "uberuser14@gmail.com",
     fullName: "John Smith",
     billing: {
@@ -406,7 +406,7 @@ const list = [
     pw: "password",
     role: "driver",
     vehicleType: "lux",
-    avatar: "./client/src/img/man3.jpg",
+    avatar: "../img/man3.jpg",
     email: "uberuser15@gmail.com",
     fullName: "Steve Nichols",
     billing: {
@@ -432,7 +432,7 @@ const list = [
     pw: "password",
     role: "driver",
     vehicleType: "lg",
-    avatar: "./client/src/img/man4.jpg",
+    avatar: "../img/man4.jpg",
     email: "uberuser16@gmail.com",
     fullName: "Karim Amirali",
     billing: {
@@ -458,7 +458,7 @@ const list = [
     pw: "password",
     role: "driver",
     vehicleType: "std",
-    avatar: "./client/src/img/lady1.jpg",
+    avatar: "../img/lady1.jpg",
     email: "uberuser17@gmail.com",
     fullName: "Louise Taylor",
     billing: {
@@ -484,7 +484,7 @@ const list = [
     pw: "password",
     role: "driver",
     vehicleType: "lux",
-    avatar: "./client/src/img/lady2.jpg",
+    avatar: "../img/lady2.jpg",
     email: "uberuser18@gmail.com",
     fullName: "Michelle Taylor",
     billing: {
@@ -510,7 +510,7 @@ const list = [
     pw: "password",
     role: "driver",
     vehicleType: "std",
-    avatar: "./client/src/img/man1.jpg",
+    avatar: "../img/man1.jpg",
     email: "uberuser19@gmail.com",
     fullName: "Dan Hom",
     billing: {
@@ -536,7 +536,7 @@ const list = [
     pw: "password",
     role: "driver",
     vehicleType: "lg",
-    avatar: "./client/src/img/lady3.jpg",
+    avatar: "../img/lady3.jpg",
     email: "uberuser20@gmail.com",
     fullName: "Arianna Garcia",
     billing: {

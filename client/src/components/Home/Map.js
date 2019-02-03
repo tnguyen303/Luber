@@ -35,9 +35,10 @@ const Map = compose(
     {props.isMarkerShown && (
       <div>
         <Marker position={props.currentPosition} />
-        {props.driverLocList.map(e => (
+        {props.driverLocList.map((e,i) => (
           <Marker
             // animation={this.props.google.maps.Animation.DROP}
+            key={i}
             position={{ lat: e.lat, lng: e.lng }}
             icon={
               e.vehicleType === "std"

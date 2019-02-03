@@ -66,7 +66,9 @@ class App extends Component {
           />
         ) : null}
         {this.state.view === "home" ? <Home /> : null}
-        {this.state.view === "account" ? <Account /> : null}
+        {this.state.view === "account" ? (
+          <Account uid={parseFloat(this.state.uid)} />
+        ) : null}
         {this.state.view === "history" ? <History /> : null}
         {this.state.view !== "login" ? (
           <Navbar

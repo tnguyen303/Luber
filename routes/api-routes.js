@@ -105,8 +105,7 @@ module.exports = function(app) {
                 result.data.rows[i].elements[0].duration.value;
               driverLocList[i].distance =
                 result.data.rows[i].elements[0].distance.value;
-              driverLocList[i].address = 
-                result.data.origin_addresses[i];
+              driverLocList[i].address = result.data.origin_addresses[i];
             }
 
             driverLocList.sort((a, b) => {
@@ -119,5 +118,12 @@ module.exports = function(app) {
       .catch(function(err) {
         res.json(err);
       });
+  });
+
+  //return account data, SENSITIVE INFO!
+  app.post("/api/account", function(req, res) {
+    User.findOne({ uid: req.body.uid }).then(function(data) {
+      res.json(data);
+    });
   });
 };

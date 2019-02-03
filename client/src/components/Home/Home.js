@@ -25,11 +25,19 @@ const TripForm = props => (
       ))}
     </datalist>
     <br />
-
     <button id="calcBtn" onClick={props.calculateFare}>
       Calculate Fare
     </button>
-    <button onClick={props.showFareList}>Change Car Type</button>
+    {props.fareList.length > 0 ? (
+      <button style={{ marginLeft: "20px" }} onClick={props.showFareList}>
+        {props.selectedCarDesc}
+        <br />
+        <span>Change Car Type</span>
+      </button>
+    ) : null}
+    {props.selectedFare !== 0 ? (
+      <button id="orderRideBtn" onClick={props.orderRide}>GO!</button>
+    ) : null}
     <div />
   </form>
 );
@@ -40,10 +48,10 @@ const FareList = props => (
       &times;
     </span>
     <div id="fareList" className="modal-content">
-      <p style={{ textAlign: "center", "font-weight": "bold", color: "green" }}>
+      <p style={{ textAlign: "center", fontWeight: "bold", color: "green" }}>
         {props.duration}
       </p>
-      <p style={{ textAlign: "center", "font-weight": "bold" }}>
+      <p style={{ textAlign: "center", fontWeight: "bold" }}>
         {props.distance}
       </p>
       {props.fareList.map((e, i) => (
@@ -88,6 +96,7 @@ class Home extends React.Component {
     durationStr: "",
     selectedFare: 0,
     selectedCar: "",
+    selectedCarDesc: "",
     fareList: [],
     fareListDisplay: false,
     driverLocList: []
@@ -106,8 +115,28 @@ class Home extends React.Component {
     }
   };
 
-  loadLocMap = () => {};
+  getDriverLocList = () => {
+    axios
+      .post("/api/drivers", {
+        locationStr: "",
+        destinationStr: encodeURI(
+          `${this.state.currentPosition.latitude},${
+            this.state.currentPosition.longitude
+          }`
+        )
+      })
+      .then(result => {
+        this.setState({ driverLocList: result.data });
+      });
+  };
 
+  componentDidMount() {
+    this.getLocation(() => {
+      this.setState({ isLocReady: true });
+      this.getDriverLocList();
+    });
+  }
+  
   loadDirMap = () => {
     this.setState({ view: "direction", isDirMapReady: true });
   };
@@ -141,13 +170,6 @@ class Home extends React.Component {
       "&key=AIzaSyCy6XI9k69VW_vNjJ-q7rpdgPiFjJH1zMA";
     this.setState({ directionAPI: encodedLink });
   };
-
-  componentDidMount() {
-    this.getLocation(() => {
-      this.setState({ isLocReady: true });
-      this.getDriverLocList();
-    });
-  }
 
   calculateFare = event => {
     event.preventDefault();
@@ -214,24 +236,17 @@ class Home extends React.Component {
   };
 
   handleFareClick = event => {
-    this.setState({ selectedFare: parseFloat(event.target.value) });
+    this.setState({
+      selectedFare: parseFloat(event.target.value),
+      selectedCar: event.target.id,
+      selectedCarDesc: event.target.textContent
+    });
     this.hideFareList();
   };
 
-  getDriverLocList = () => {
-    axios
-      .post("/api/drivers", {
-        locationStr: "",
-        destinationStr: encodeURI(
-          `${this.state.currentPosition.latitude},${
-            this.state.currentPosition.longitude
-          }`
-        )
-      })
-      .then(result => {
-        this.setState({ driverLocList: result.data });
-      });
-  };
+  orderRide = () => {
+
+  }
 
   render() {
     return (
@@ -251,6 +266,10 @@ class Home extends React.Component {
           calculateFare={this.calculateFare}
           showFareList={this.showFareList}
           destinationList={this.state.destinationList}
+          selectedFare={this.state.selectedFare}
+          selectedCarDesc={this.state.selectedCarDesc}
+          fareList={this.state.fareList}
+          orderRide={this.orderRide}
         />
         <div id="mapArea">
           {this.state.view === "location" && this.state.isLocReady ? (

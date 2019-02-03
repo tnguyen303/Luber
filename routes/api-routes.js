@@ -20,12 +20,8 @@ module.exports = function(app) {
   //create a new login
   app.post("/api/signup", function(req, res) {
     User.create(req.body)
-      .then(function(data) {
-        res.json({ success: true });
-      })
-      .catch(function(err) {
-        res.json(err);
-      });
+      .then(data => res.json({ success: true }))
+      .catch(err => res.json(err));
   });
 
   //login verification
@@ -86,7 +82,8 @@ module.exports = function(app) {
       .then(function(data) {
         data.forEach(e => {
           driverLocList.push({
-            id: e.uid,
+            uid: e.uid,
+            fullName: e.fullName,
             lat: e.currentLoc.latitude,
             lng: e.currentLoc.longitude,
             vehicleType: e.vehicleType
@@ -126,4 +123,35 @@ module.exports = function(app) {
       res.json(data);
     });
   });
+
+  //post trip data to database
+  app.post("/api/trip", function(req, res) {
+    Trip.create(req.body)
+      .then(data => {
+        User.findOneAndUpdate(
+          { uid: data.riderUid },
+          { $push: { tripList: data._id } },
+          { new: true }
+        ).catch(err => console.log(err));
+
+        User.findOneAndUpdate(
+          { uid: data.driverUid },
+          { $push: { tripList: data._id } },
+          { new: true }
+        ).catch(err => console.log(err));
+
+        res.json({ success: true });
+      })
+      .catch(err => res.json(err));
+  });
+
+  //get trip history for an account from database
+  app.post("/api/triphistory", function(req, res) {
+    User
+      .findOne({ uid: req.body.uid })
+      .populate("tripList")
+      .then(data => res.json(data.tripList))
+      .catch(err => res.json(err));
+  });
+  
 };

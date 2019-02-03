@@ -36,7 +36,9 @@ const TripForm = props => (
       </button>
     ) : null}
     {props.selectedFare !== 0 ? (
-      <button id="orderRideBtn" onClick={props.orderRide}>GO!</button>
+      <button id="orderRideBtn" onClick={props.orderRide}>
+        GO
+      </button>
     ) : null}
     <div />
   </form>
@@ -135,8 +137,8 @@ class Home extends React.Component {
       this.setState({ isLocReady: true });
       this.getDriverLocList();
     });
-  }
-  
+  };
+
   loadDirMap = () => {
     this.setState({ view: "direction", isDirMapReady: true });
   };
@@ -244,9 +246,25 @@ class Home extends React.Component {
     this.hideFareList();
   };
 
-  orderRide = () => {
-
-  }
+  orderRide = event => {
+    event.preventDefault();
+    const matchingVehicleTypeList = this.state.driverLocList.filter(
+      e => e.vehicleType === this.state.selectedCar
+    );
+    const matchingDriver = matchingVehicleTypeList[0];
+    axios
+      .post("/api/trip", {
+        time: Date.now(),
+        from: this.state.origin,
+        to: this.state.destination,
+        fare: this.state.selectedFare,
+        vehicleType: this.state.selectedCar,
+        driverUid: matchingDriver.uid,
+        driverName: matchingDriver.fullName,
+        riderUid: this.props.uid
+      });
+      // .then(result => console.log(result.data));
+  };
 
   render() {
     return (

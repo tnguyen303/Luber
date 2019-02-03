@@ -65,11 +65,15 @@ class App extends Component {
             submitLogin={this.submitLogin}
           />
         ) : null}
-        {this.state.view === "home" ? <Home /> : null}
+        {this.state.view === "home" ? (
+          <Home uid={parseFloat(this.state.uid)} />
+        ) : null}
         {this.state.view === "account" ? (
           <Account uid={parseFloat(this.state.uid)} />
         ) : null}
-        {this.state.view === "history" ? <History /> : null}
+        {this.state.view === "history" ? (
+          <History uid={parseFloat(this.state.uid)} />
+        ) : null}
         {this.state.view !== "login" ? (
           <Navbar
             viewHome={this.viewHome}

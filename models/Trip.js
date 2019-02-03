@@ -19,10 +19,21 @@ const TripSchema = new Schema({
     type: Number,
     required: true
   },
-  driver: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    ref: "User"
+  vehicleType:{
+    type: String,
+    required: true
+  },
+  driverUid: {
+    type: Number,
+    required: true
+  },
+  driverName: {
+    type: String,
+    required: true
+  },
+  riderUid:{
+    type: Number,
+    required: true
   }
 });
 

@@ -2,6 +2,8 @@ import React from "react";
 import axios from "axios";
 import Map from "./Map";
 
+// import images from "../../img";
+
 const TripForm = props => (
   <form id="trip-form">
     <label htmlFor="origin">From</label>
@@ -25,11 +27,14 @@ const TripForm = props => (
       ))}
     </datalist>
     <br />
-    <button id="calcBtn" onClick={props.calculateFare}>
-      Calculate Fare
-    </button>
+    {props.isLocReady ? (
+      <button id="calcBtn" onClick={props.calculateFare}>
+        Calculate Fare
+      </button>
+    ) : <div>Waiting for current location. Make sure you have location services turned ON!</div>}
+
     {props.fareList.length > 0 ? (
-      <button style={{ marginLeft: "20px" }} onClick={props.showFareList}>
+      <button id="changeFareBtn" onClick={props.showFareList}>
         {props.selectedCarDesc}
         <br />
         <span>Change Car Type</span>
@@ -75,14 +80,25 @@ const FareList = props => (
 const DirectionMap = props => (
   <iframe id="map" title="googlemap" src={props.encodedAPI} />
 );
-
+//"../../img/lady3.jpg"
 const DriverEnrouteScreen = props => (
   <div id="DriverEnrouteScreen">
+    <img
+      id="userAvatar"
+      alt="driver-avatar"
+      src={require("../../img/lady3.jpg")}
+    />
     <p style={{ fontWeight: "bold" }}>{props.driverName}</p>
-    <p>is on the way! ETA</p>
-    <p style={{ color: "#42f4a7", fontWeight: "bold" }}>{props.driverEta} min</p>
-    <button onClick={props.messageDriver}>Add Pickup Note</button>
-    <button onClick={props.cancelRide}>Cancel Ride</button>
+    <p>is on the way!</p>
+    <p style={{ color: "#42f4a7", fontWeight: "bold" }}>
+      ETA {props.driverEta} min
+    </p>
+    <button id="calcBtn" onClick={props.messageDriver}>
+      Add Pickup Note
+    </button>
+    <button id="cancelRideBtn" onClick={props.cancelRide}>
+      Cancel Ride
+    </button>
   </div>
 );
 
@@ -93,13 +109,7 @@ class Home extends React.Component {
     view: "location",
     currentPosition: {},
     directionAPI: "",
-    destinationList: [
-      "1900 Dekalb ave atlanta",
-      "590 Collingwood dr",
-      "tech square",
-      "ATT building atlanta",
-      "georgia state capitol"
-    ],
+    destinationList: [],
     origin: "",
     destination: "",
     distance: 0,
@@ -114,7 +124,8 @@ class Home extends React.Component {
     driverLocList: [],
     matchingDriver: {},
     driverEta: "",
-    tripId: ""
+    tripId: "",
+    driverAvatar: "../../img/lady3.jpg"
   };
 
   getLocation = callback => {
@@ -145,7 +156,18 @@ class Home extends React.Component {
       });
   };
 
+  getTripHistory = () => {
+    axios.post("/api/triphistory", { uid: this.props.uid }).then(result => {
+      this.setState({
+        destinationList: result.data
+          .map(e => e.to)
+          .filter((v, i, a) => a.indexOf(v) === i)
+      });
+    });
+  };
+
   componentDidMount() {
+    this.getTripHistory();
     this.getLocation(() => {
       this.setState({ isLocReady: true });
       this.getDriverLocList();
@@ -188,14 +210,17 @@ class Home extends React.Component {
 
   calculateFare = event => {
     event.preventDefault();
-    this.encodeDirectionAPI();
-    this.loadDirMap();
-    this.showFareList(event);
-    this.getTripInfo();
-    this.fillDestinationField(this.state.destination);
+    if (document.getElementById("destination").value.trim().length < 5) {
+      alert("Please input a valid destination, ex: 1 Amphitheater Way Atlanta");
+    } else {
+      this.encodeDirectionAPI();
+      this.loadDirMap();
+      this.showFareList(event);
+      this.getTripInfo();
+    }
   };
 
-  fillDestinationField = (input) =>{
+  fillDestinationField = input => {
     document.getElementById("destination").value = input;
   };
 
@@ -238,6 +263,8 @@ class Home extends React.Component {
           duration: durationInSec,
           durationStr: durationStr
         });
+
+        this.fillDestinationField(destination);
       });
   };
 
@@ -279,25 +306,42 @@ class Home extends React.Component {
     );
     axios
       .post("/api/trip", {
-      time: Date.now(),
-      from: this.state.origin,
-      to: this.state.destination,
-      fare: this.state.selectedFare,
-      vehicleType: this.state.selectedCar,
-      driverUid: matchingDriver.uid,
-      driverName: matchingDriver.fullName,
-      riderUid: this.props.uid
+        time: Date.now(),
+        from: this.state.origin,
+        to: this.state.destination,
+        fare: this.state.selectedFare,
+        vehicleType: this.state.selectedCar,
+        driverUid: matchingDriver.uid,
+        driverName: matchingDriver.fullName,
+        riderUid: this.props.uid
       })
-      .then(result => this.setState({tripId: result.data._id}));
+      .then(result => this.setState({ tripId: result.data._id }));
+
+    console.log(this.state.driverAvatar);
   };
 
   cancelRide = event => {
     event.preventDefault();
-    this.setState({view: "location"})
     axios
-      .post("/api/canceltrip", {wasCancelled: true, _id: this.state.tripId})
-      .then(result => alert("Trip cancelled successfully"))
-  }
+      .post("/api/canceltrip", { wasCancelled: true, _id: this.state.tripId })
+      .then(result => alert("Trip cancelled successfully"));
+    this.setState({
+      view: "location",
+      directionAPI: "",
+      destination: "",
+      distance: 0,
+      distanceStr: "",
+      duration: 0,
+      durationStr: "",
+      selectedFare: 0,
+      selectedCar: "",
+      selectedCarDesc: "",
+      fareList: [],
+      matchingDriver: {},
+      driverEta: "",
+      tripId: ""
+    });
+  };
 
   render() {
     return (
@@ -323,12 +367,14 @@ class Home extends React.Component {
               selectedCarDesc={this.state.selectedCarDesc}
               fareList={this.state.fareList}
               orderRide={this.orderRide}
+              isLocReady={this.state.isLocReady}
             />
           ) : this.state.view === "driverEnroute" ? (
             <DriverEnrouteScreen
               driverName={this.state.matchingDriver.fullName}
               driverEta={this.state.driverEta}
               cancelRide={this.cancelRide}
+              driverAvatar={this.state.driverAvatar}
             />
           ) : null}
         </div>

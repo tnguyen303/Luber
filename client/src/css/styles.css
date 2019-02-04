@@ -53,7 +53,8 @@ input {
   width: 60%;
   height: 24px;
   border-radius: 15px;
-  padding-left: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
   margin-bottom: 5px;
   margin-left: 10px;
   border: solid 1px;
@@ -99,7 +100,7 @@ input {
 }
 
 #home{
-  grid-template-rows: 20% 1fr;
+  grid-template-rows: 21% 1fr;
   grid-template-columns: 1fr;
   display: grid;
 
@@ -144,8 +145,7 @@ button {
   box-shadow: 0;
   border: 0;
   cursor: pointer;
-  margin-left: 20px;
-  margin-top: 10px;
+  /* margin-top: 10px; */
 }
 
 .fareBtn {
@@ -158,8 +158,22 @@ button {
 }
 
 #calcBtn {
+  position: absolute;
+  top: 145px;
+  left: 20px;
   background-color: rgb(0, 53, 138);
-  border: 0;
+}
+
+#changeFareBtn {
+  position: absolute;
+  top: 145px;
+  left: 150px;
+}
+
+#cancelRideBtn{
+  position: absolute;
+  top: 145px;
+  right: 20px;
 }
 
 .modal {

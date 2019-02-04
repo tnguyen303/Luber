@@ -41,6 +41,13 @@ module.exports = function(app) {
     });
   });
 
+  //save account info changes
+  app.post("/api/accountupdate", function(req, res) {
+    User.findOneAndUpdate({ uid: req.body.uid }, req.body, { new: true })
+      .then(data => res.json(data))
+      .catch(err => res.json(err));
+  });
+
   //get distance and duration from Google API
   app.get("/api/trip/:originStr/:destinationStr", function(req, res) {
     axios
@@ -126,8 +133,10 @@ module.exports = function(app) {
 
   //post trip data to database
   app.post("/api/trip", function(req, res) {
+    let trip = {};
     Trip.create(req.body)
       .then(data => {
+        trip = data;
         User.findOneAndUpdate(
           { uid: data.riderUid },
           { $push: { tripList: data._id } },
@@ -140,18 +149,28 @@ module.exports = function(app) {
           { new: true }
         ).catch(err => console.log(err));
 
-        res.json({ success: true });
+        res.json(trip);
       })
       .catch(err => res.json(err));
   });
 
   //get trip history for an account from database
   app.post("/api/triphistory", function(req, res) {
-    User
-      .findOne({ uid: req.body.uid })
+    User.findOne({ uid: req.body.uid })
       .populate("tripList")
       .then(data => res.json(data.tripList))
       .catch(err => res.json(err));
   });
-  
+
+  //mark trip as cancelled
+  app.post("/api/canceltrip", function(req, res) {
+    Trip
+      .findOneAndUpdate(
+      { _id: req.body._id },
+      { wasCancelled: true },
+      { new: true }
+      )
+      .then(data => res.json(data))
+      .catch(err => res.json(err));
+  });
 };

@@ -34,6 +34,10 @@ const TripSchema = new Schema({
   riderUid:{
     type: Number,
     required: true
+  },
+  wasCancelled:{
+    type: Boolean,
+    default: false
   }
 });
 

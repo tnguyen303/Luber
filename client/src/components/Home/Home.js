@@ -76,6 +76,16 @@ const DirectionMap = props => (
   <iframe id="map" title="googlemap" src={props.encodedAPI} />
 );
 
+const DriverEnrouteScreen = props => (
+  <div id="DriverEnrouteScreen">
+    <p style={{ fontWeight: "bold" }}>{props.driverName}</p>
+    <p>is on the way! ETA</p>
+    <p style={{ color: "#42f4a7", fontWeight: "bold" }}>{props.driverEta} min</p>
+    <button onClick={props.messageDriver}>Add Pickup Note</button>
+    <button onClick={props.cancelRide}>Cancel Ride</button>
+  </div>
+);
+
 class Home extends React.Component {
   state = {
     isLocReady: false,
@@ -101,7 +111,10 @@ class Home extends React.Component {
     selectedCarDesc: "",
     fareList: [],
     fareListDisplay: false,
-    driverLocList: []
+    driverLocList: [],
+    matchingDriver: {},
+    driverEta: "",
+    tripId: ""
   };
 
   getLocation = callback => {
@@ -137,7 +150,7 @@ class Home extends React.Component {
       this.setState({ isLocReady: true });
       this.getDriverLocList();
     });
-  };
+  }
 
   loadDirMap = () => {
     this.setState({ view: "direction", isDirMapReady: true });
@@ -179,6 +192,11 @@ class Home extends React.Component {
     this.loadDirMap();
     this.showFareList(event);
     this.getTripInfo();
+    this.fillDestinationField(this.state.destination);
+  };
+
+  fillDestinationField = (input) =>{
+    document.getElementById("destination").value = input;
   };
 
   getTripInfo = () => {
@@ -252,19 +270,34 @@ class Home extends React.Component {
       e => e.vehicleType === this.state.selectedCar
     );
     const matchingDriver = matchingVehicleTypeList[0];
+    this.setState(
+      {
+        matchingDriver: matchingDriver,
+        driverEta: this.roundUp(matchingDriver.duration / 60, 0)
+      },
+      () => this.setState({ view: "driverEnroute" })
+    );
     axios
       .post("/api/trip", {
-        time: Date.now(),
-        from: this.state.origin,
-        to: this.state.destination,
-        fare: this.state.selectedFare,
-        vehicleType: this.state.selectedCar,
-        driverUid: matchingDriver.uid,
-        driverName: matchingDriver.fullName,
-        riderUid: this.props.uid
-      });
-      // .then(result => console.log(result.data));
+      time: Date.now(),
+      from: this.state.origin,
+      to: this.state.destination,
+      fare: this.state.selectedFare,
+      vehicleType: this.state.selectedCar,
+      driverUid: matchingDriver.uid,
+      driverName: matchingDriver.fullName,
+      riderUid: this.props.uid
+      })
+      .then(result => this.setState({tripId: result.data._id}));
   };
+
+  cancelRide = event => {
+    event.preventDefault();
+    this.setState({view: "location"})
+    axios
+      .post("/api/canceltrip", {wasCancelled: true, _id: this.state.tripId})
+      .then(result => alert("Trip cancelled successfully"))
+  }
 
   render() {
     return (
@@ -278,17 +311,27 @@ class Home extends React.Component {
             distance={this.state.distanceStr}
           />
         ) : null}
-        <TripForm
-          handleOriginChange={this.handleOriginChange}
-          handleDestinationChange={this.handleDestinationChange}
-          calculateFare={this.calculateFare}
-          showFareList={this.showFareList}
-          destinationList={this.state.destinationList}
-          selectedFare={this.state.selectedFare}
-          selectedCarDesc={this.state.selectedCarDesc}
-          fareList={this.state.fareList}
-          orderRide={this.orderRide}
-        />
+        <div>
+          {this.state.view === "location" || this.state.view === "direction" ? (
+            <TripForm
+              handleOriginChange={this.handleOriginChange}
+              handleDestinationChange={this.handleDestinationChange}
+              calculateFare={this.calculateFare}
+              showFareList={this.showFareList}
+              destinationList={this.state.destinationList}
+              selectedFare={this.state.selectedFare}
+              selectedCarDesc={this.state.selectedCarDesc}
+              fareList={this.state.fareList}
+              orderRide={this.orderRide}
+            />
+          ) : this.state.view === "driverEnroute" ? (
+            <DriverEnrouteScreen
+              driverName={this.state.matchingDriver.fullName}
+              driverEta={this.state.driverEta}
+              cancelRide={this.cancelRide}
+            />
+          ) : null}
+        </div>
         <div id="mapArea">
           {this.state.view === "location" && this.state.isLocReady ? (
             <Map
@@ -299,9 +342,17 @@ class Home extends React.Component {
               driverLocList={this.state.driverLocList}
               isMarkerShown
             />
-          ) : null}
-          {this.state.view === "direction" && this.state.isDirMapReady ? (
+          ) : this.state.view === "direction" && this.state.isDirMapReady ? (
             <DirectionMap encodedAPI={this.state.directionAPI} />
+          ) : this.state.view === "driverEnroute" ? (
+            <Map
+              currentPosition={{
+                lat: this.state.currentPosition.latitude,
+                lng: this.state.currentPosition.longitude
+              }}
+              driverLocList={[this.state.matchingDriver]}
+              isMarkerShown
+            />
           ) : null}
         </div>
       </div>

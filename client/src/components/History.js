@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import moment from "moment";
 
 class History extends React.Component {
   state = {
@@ -32,7 +33,7 @@ class History extends React.Component {
             </tr>
             {this.state.tripList.map((e, i) => (
               <tr key={i}>
-                <td>{Date(e.time).toString()}</td>
+                <td>{moment(e.time).format('llll')}</td>
                 <td>{e.from}</td>
                 <td>{e.to}</td>
                 <td>${e.fare}</td>

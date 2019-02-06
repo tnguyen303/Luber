@@ -66,7 +66,6 @@ class Account extends React.Component {
 
   componentDidMount() {
     this.getAccountInfo();
-    console.log(this.state.avatar);
   }
 
   submitAccount = event => {

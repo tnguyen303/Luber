@@ -334,8 +334,6 @@ class Home extends React.Component {
         riderUid: this.props.uid
       })
       .then(result => this.setState({ tripId: result.data._id }));
-
-    console.log(this.state.driverAvatar);
   };
 
   cancelRide = event => {

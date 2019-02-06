@@ -260,3 +260,11 @@ tr:nth-child(even) {
   padding: 10px 10px;
   text-align: center;
 }
+
+#waiting-for-location{
+  position: absolute;
+  top: 350px;
+  left: 50%;
+  width: 70px;
+  margin-left: -35px;
+}

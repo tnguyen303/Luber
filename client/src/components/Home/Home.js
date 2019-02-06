@@ -4,6 +4,11 @@ import Map from "./Map";
 
 // import images from "../../img";
 
+//Import React Scrit Libraray to load Google object
+import Script from "react-load-script";
+
+const APIkey = "AIzaSyCy6XI9k69VW_vNjJ-q7rpdgPiFjJH1zMA";
+
 const TripForm = props => (
   <form id="trip-form">
     <label htmlFor="origin">From</label>
@@ -15,8 +20,8 @@ const TripForm = props => (
     <br />
     <label htmlFor="destination">To</label>
     <input
-      autoComplete="off"
-      list="destinations"
+      // autoComplete="off"
+      // list="destinations"
       id="destination"
       onChange={props.handleDestinationChange}
       placeholder="ex: 115 westwood ave atlanta"
@@ -31,7 +36,19 @@ const TripForm = props => (
       <button id="calcBtn" onClick={props.calculateFare}>
         Calculate Fare
       </button>
-    ) : <div>Waiting for current location. Make sure you have location services turned ON!</div>}
+    ) : (
+      <div>
+        <p>
+          Waiting for current location. Make sure you have location services
+          turned ON!
+        </p>
+        <img
+          id="waiting-for-location"
+          src={require("../../img/waiting-for-location.gif")}
+          alt="waiting-for-location"
+        />
+      </div>
+    )}
 
     {props.fareList.length > 0 ? (
       <button id="changeFareBtn" onClick={props.showFareList}>
@@ -204,7 +221,8 @@ class Home extends React.Component {
       originString +
       "&destination=" +
       encodeURI(this.state.destination) +
-      "&key=AIzaSyCy6XI9k69VW_vNjJ-q7rpdgPiFjJH1zMA";
+      "&key=" +
+      APIkey;
     this.setState({ directionAPI: encodedLink });
   };
 
@@ -343,9 +361,37 @@ class Home extends React.Component {
     });
   };
 
+  handleScriptLoad = () => {
+    // Declare Options For Autocomplete
+    var options = { types: ["address"] };
+    // Initialize Google Autocomplete
+    /*global google*/
+    this.autocomplete = new google.maps.places.Autocomplete(
+      document.getElementById("destination"),
+      options
+    );
+    // Fire Event when a suggested name is selected
+    this.autocomplete.addListener("place_changed", this.handlePlaceSelect);
+  };
+
+  handlePlaceSelect = () => {
+    let addressObject = this.autocomplete.getPlace();
+    let address = addressObject.address_components;
+
+    if (address) {
+      this.setState({
+        destination: addressObject.formatted_address
+      });
+    }
+  };
+
   render() {
     return (
       <div id="home">
+        <Script
+          url={`https://maps.googleapis.com/maps/api/js?key=${APIkey}&libraries=places`}
+          onLoad={this.handleScriptLoad}
+        />
         {this.state.fareList.length > 0 && this.state.fareListDisplay ? (
           <FareList
             fareList={this.state.fareList}

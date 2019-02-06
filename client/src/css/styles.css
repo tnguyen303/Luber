@@ -100,7 +100,7 @@ input {
 }
 
 #home{
-  grid-template-rows: 21% 1fr;
+  grid-template-rows: 140px 1fr;
   grid-template-columns: 1fr;
   display: grid;
 

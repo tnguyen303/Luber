@@ -20,8 +20,8 @@ const TripForm = props => (
     <br />
     <label htmlFor="destination">To</label>
     <input
-      // autoComplete="off"
-      // list="destinations"
+      // autoComplete="off" enable to switch to ride history display
+      // list="destinations" enable to switch to ride history display
       id="destination"
       onChange={props.handleDestinationChange}
       placeholder="ex: 115 westwood ave atlanta"

@@ -202,9 +202,28 @@ class Home extends React.Component {
 
   handleDestinationChange = event => {
     event.preventDefault();
-    this.setState({ destination: event.target.value });
+    this.setState({ destination: event.target.value});
+    this.clearTrip();
   };
 
+  clearTrip = () =>{
+    this.setState({
+      view: "location",
+      directionAPI: "",
+      distance: 0,
+      distanceStr: "",
+      duration: 0,
+      durationStr: "",
+      selectedFare: 0,
+      selectedCar: "",
+      selectedCarDesc: "",
+      fareList: [],
+      matchingDriver: {},
+      driverEta: "",
+      tripId: ""
+    });
+  };
+  
   encodeDirectionAPI = () => {
     let originString = "";
 
@@ -341,22 +360,8 @@ class Home extends React.Component {
     axios
       .post("/api/canceltrip", { wasCancelled: true, _id: this.state.tripId })
       .then(result => alert("Trip cancelled successfully"));
-    this.setState({
-      view: "location",
-      directionAPI: "",
-      destination: "",
-      distance: 0,
-      distanceStr: "",
-      duration: 0,
-      durationStr: "",
-      selectedFare: 0,
-      selectedCar: "",
-      selectedCarDesc: "",
-      fareList: [],
-      matchingDriver: {},
-      driverEta: "",
-      tripId: ""
-    });
+      this.setState({ destination: ""});
+      this.clearTrip();
   };
 
   handleScriptLoad = () => {

@@ -4,7 +4,7 @@ import Map from "./Map";
 
 // import images from "../../img";
 
-//Import React Scrit Libraray to load Google object
+//Import React Script Library to load Google object
 import Script from "react-load-script";
 
 const APIkey = "AIzaSyCy6XI9k69VW_vNjJ-q7rpdgPiFjJH1zMA";
@@ -32,13 +32,13 @@ const TripForm = props => (
       ))}
     </datalist>
     <br />
-    {props.isLocReady ? (
+    {props.isLocReady && props.fareList.length === 0 ? (
       <button id="calcBtn" onClick={props.calculateFare}>
         Calculate Fare
       </button>
-    ) : (
+    ) : !props.isLocReady? (
       <div>
-        <p>
+        <p style={{textAlign: "center"}}>
           Waiting for current location. Make sure you have location services
           turned ON!
         </p>
@@ -48,7 +48,7 @@ const TripForm = props => (
           alt="waiting-for-location"
         />
       </div>
-    )}
+    ) : null}
 
     {props.fareList.length > 0 ? (
       <button id="changeFareBtn" onClick={props.showFareList}>
@@ -202,11 +202,11 @@ class Home extends React.Component {
 
   handleDestinationChange = event => {
     event.preventDefault();
-    this.setState({ destination: event.target.value});
+    this.setState({ destination: event.target.value });
     this.clearTrip();
   };
 
-  clearTrip = () =>{
+  clearTrip = () => {
     this.setState({
       view: "location",
       directionAPI: "",
@@ -223,7 +223,7 @@ class Home extends React.Component {
       tripId: ""
     });
   };
-  
+
   encodeDirectionAPI = () => {
     let originString = "";
 
@@ -360,8 +360,8 @@ class Home extends React.Component {
     axios
       .post("/api/canceltrip", { wasCancelled: true, _id: this.state.tripId })
       .then(result => alert("Trip cancelled successfully"));
-      this.setState({ destination: ""});
-      this.clearTrip();
+    this.setState({ destination: "" });
+    this.clearTrip();
   };
 
   handleScriptLoad = () => {

@@ -50,7 +50,7 @@ header {
 }
 
 input {
-  width: 60%;
+  width: calc(100% - 170px);
   height: 24px;
   border-radius: 15px;
   padding-left: 5px;
